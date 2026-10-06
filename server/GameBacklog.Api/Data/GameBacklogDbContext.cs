@@ -51,6 +51,8 @@ public class GameBacklogDbContext : DbContext
 
         modelBuilder.Entity<ApplicationUser>(entity =>
         {
+            entity.ToTable("ApplicationUser");
+
             entity.HasIndex(user => user.GoogleSubjectId).IsUnique();
 
             entity.HasMany(user => user.BacklogEntries).WithOne(entry => entry.User)

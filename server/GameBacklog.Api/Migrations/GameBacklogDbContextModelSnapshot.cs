@@ -53,7 +53,7 @@ namespace GameBacklog.Api.Migrations
                     b.HasIndex("GoogleSubjectId")
                         .IsUnique();
 
-                    b.ToTable("ApplicationUser");
+                    b.ToTable("ApplicationUser", (string)null);
                 });
 
             modelBuilder.Entity("GameBacklog.Api.Models.BacklogEntry", b =>
@@ -104,7 +104,7 @@ namespace GameBacklog.Api.Migrations
                     b.HasIndex("UserId", "CatalogGameId")
                         .IsUnique();
 
-                    b.ToTable("BacklogEntries");
+                    b.ToTable("BacklogEntries", (string)null);
                 });
 
             modelBuilder.Entity("GameBacklog.Api.Models.CatalogGame", b =>
@@ -160,7 +160,7 @@ namespace GameBacklog.Api.Migrations
                     b.HasIndex("RawgId")
                         .IsUnique();
 
-                    b.ToTable("CatalogGames");
+                    b.ToTable("CatalogGames", (string)null);
                 });
 
             modelBuilder.Entity("GameBacklog.Api.Models.BacklogEntry", b =>
