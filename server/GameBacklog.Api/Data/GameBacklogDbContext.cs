@@ -15,6 +15,8 @@ public class GameBacklogDbContext : DbContext
 
     public DbSet<BacklogEntry> BacklogEntries => Set<BacklogEntry>();
 
+    public DbSet<ApplicationUser> Users => Set<ApplicationUser>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CatalogGame>(entity =>

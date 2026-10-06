@@ -1,4 +1,5 @@
-﻿using GameBacklog.Api.Data;
+﻿using System.Security.Claims;
+using GameBacklog.Api.Data;
 using GameBacklog.Api.Dtos.Backlog;
 using GameBacklog.Api.Models;
 using GameBacklog.Api.Services;
@@ -31,9 +32,15 @@ public class BacklogController : ControllerBase
         [FromQuery] string? search,
         CancellationToken cancellationToken)
     {
+        if (!TryGetCurrentUserId(out var userId))
+        {
+            return Unauthorized();
+        }
+
         var query = _dbContext.BacklogEntries
             .AsNoTracking()
             .Include(entry => entry.CatalogGame)
+            .Where(entry => entry.UserId == userId)
             .AsQueryable();
 
         if (status.HasValue)
@@ -62,11 +69,16 @@ public class BacklogController : ControllerBase
         int id,
         CancellationToken cancellationToken)
     {
+        if (!TryGetCurrentUserId(out var userId))
+        {
+            return Unauthorized();
+        }
+
         var entry = await _dbContext.BacklogEntries
             .AsNoTracking()
             .Include(item => item.CatalogGame)
             .FirstOrDefaultAsync(
-                item => item.Id == id,
+                item => item.Id == id && item.UserId == userId,
                 cancellationToken);
 
         if (entry is null)
@@ -82,6 +94,11 @@ public class BacklogController : ControllerBase
         AddBacklogEntryRequest request,
         CancellationToken cancellationToken)
     {
+        if (!TryGetCurrentUserId(out var userId))
+        {
+            return Unauthorized();
+        }
+
         if (request.RawgId <= 0)
         {
             return BadRequest(new
@@ -94,6 +111,7 @@ public class BacklogController : ControllerBase
             .Include(entry => entry.CatalogGame)
             .FirstOrDefaultAsync(
                 entry =>
+                    entry.UserId == userId &&
                     entry.CatalogGame.RawgId == request.RawgId,
                 cancellationToken);
 
@@ -155,6 +173,7 @@ public class BacklogController : ControllerBase
 
         var backlogEntry = new BacklogEntry
         {
+            UserId = userId,
             CatalogGame = catalogGame,
             Status = request.Status,
             CreatedAt = now,
@@ -176,6 +195,11 @@ public class BacklogController : ControllerBase
         UpdateBacklogEntryRequest request,
         CancellationToken cancellationToken)
     {
+        if (!TryGetCurrentUserId(out var userId))
+        {
+            return Unauthorized();
+        }
+
         if (request.StartedOn.HasValue &&
             request.CompletedOn.HasValue &&
             request.CompletedOn < request.StartedOn)
@@ -188,7 +212,9 @@ public class BacklogController : ControllerBase
         }
 
         var entry = await _dbContext.BacklogEntries
-            .FindAsync([id], cancellationToken);
+            .FirstOrDefaultAsync(
+                e => e.Id == id && e.UserId == userId,
+                cancellationToken);
 
         if (entry is null)
         {
@@ -213,8 +239,15 @@ public class BacklogController : ControllerBase
         int id,
         CancellationToken cancellationToken)
     {
+        if (!TryGetCurrentUserId(out var userId))
+        {
+            return Unauthorized();
+        }
+
         var entry = await _dbContext.BacklogEntries
-            .FindAsync([id], cancellationToken);
+            .FirstOrDefaultAsync(
+                e => e.Id == id && e.UserId == userId,
+                cancellationToken);
 
         if (entry is null)
         {
@@ -225,6 +258,14 @@ public class BacklogController : ControllerBase
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return NoContent();
+    }
+
+    private bool TryGetCurrentUserId(out int userId)
+    {
+        var value = User.FindFirstValue(
+            ApplicationUser.LocalUserIdClaimType);
+
+        return int.TryParse(value, out userId);
     }
 
     private static BacklogEntryResponse ToResponse(

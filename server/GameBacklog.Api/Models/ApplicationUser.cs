@@ -4,6 +4,8 @@ namespace GameBacklog.Api.Models;
 
 public class ApplicationUser
 {
+    public const string LocalUserIdClaimType = "local_user_id";
+
     public int Id { get; set; }
 
     [Required]

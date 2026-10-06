@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using System.Text.Json.Serialization;
 using GameBacklog.Api.Configuration;
 using GameBacklog.Api.Data;
+using GameBacklog.Api.Models;
 using GameBacklog.Api.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -75,6 +77,66 @@ builder.Services
                     StatusCodes.Status403Forbidden;
 
                 return Task.CompletedTask;
+            };
+
+            options.Events.OnSigningIn = async context =>
+            {
+                var identity = context.Principal?.Identities
+                    .FirstOrDefault();
+
+                var googleSubjectId = identity?.FindFirst(
+                    ClaimTypes.NameIdentifier)?.Value;
+
+                var email = identity?.FindFirst(
+                    ClaimTypes.Email)?.Value;
+
+                if (identity is null ||
+                    string.IsNullOrWhiteSpace(googleSubjectId) ||
+                    string.IsNullOrWhiteSpace(email))
+                {
+                    return;
+                }
+
+                var displayName = identity.FindFirst(
+                    ClaimTypes.Name)?.Value;
+
+                var pictureUrl = identity.FindFirst("picture")?.Value;
+
+                var dbContext = context.HttpContext.RequestServices
+                    .GetRequiredService<GameBacklogDbContext>();
+
+                var now = DateTime.UtcNow;
+
+                var user = await dbContext.Users.FirstOrDefaultAsync(
+                    u => u.GoogleSubjectId == googleSubjectId);
+
+                if (user is null)
+                {
+                    user = new ApplicationUser
+                    {
+                        GoogleSubjectId = googleSubjectId,
+                        Email = email,
+                        DisplayName = displayName ?? email,
+                        PictureUrl = pictureUrl,
+                        CreatedAt = now,
+                        LastLoginAt = now
+                    };
+
+                    dbContext.Users.Add(user);
+                }
+                else
+                {
+                    user.Email = email;
+                    user.DisplayName = displayName ?? email;
+                    user.PictureUrl = pictureUrl;
+                    user.LastLoginAt = now;
+                }
+
+                await dbContext.SaveChangesAsync();
+
+                identity.AddClaim(new Claim(
+                    ApplicationUser.LocalUserIdClaimType,
+                    user.Id.ToString()));
             };
         })
     .AddGoogle(
