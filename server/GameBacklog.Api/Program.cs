@@ -159,6 +159,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+using (var migrationScope = app.Services.CreateScope())
+{
+    migrationScope.ServiceProvider
+        .GetRequiredService<GameBacklogDbContext>()
+        .Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
