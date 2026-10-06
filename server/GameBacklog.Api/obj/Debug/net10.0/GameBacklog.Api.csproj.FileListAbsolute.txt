@@ -308,3 +308,4 @@ C:\Users\jdbrione\OneDrive - Capgemini\Documents\Learning\game-backlog\server\Ga
 C:\Users\jdbrione\OneDrive - Capgemini\Documents\Learning\game-backlog\server\GameBacklog.Api\obj\Debug\net10.0\GameBacklog.Api.pdb
 C:\Users\jdbrione\OneDrive - Capgemini\Documents\Learning\game-backlog\server\GameBacklog.Api\obj\Debug\net10.0\GameBacklog.Api.genruntimeconfig.cache
 C:\Users\jdbrione\OneDrive - Capgemini\Documents\Learning\game-backlog\server\GameBacklog.Api\obj\Debug\net10.0\ref\GameBacklog.Api.dll
+C:\Users\jdbrione\OneDrive - Capgemini\Documents\Learning\game-backlog\server\GameBacklog.Api\obj\Debug\net10.0\GameBacklog.Api.sourcelink.json

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GameBacklog.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+236e09200c90a8f484df91218dc087390cd232ef")]
 [assembly: System.Reflection.AssemblyProductAttribute("GameBacklog.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GameBacklog.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
