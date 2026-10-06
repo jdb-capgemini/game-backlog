@@ -1,0 +1,38 @@
+﻿@baseUrl = https://localhost:7093
+
+### Search the RAWG catalogue
+GET {{baseUrl}}/api/catalog/search?query=Persona%205&page=1&pageSize=10
+Accept: application/json
+
+### Add a selected RAWG game to the backlog
+POST {{baseUrl}}/api/backlog
+Content-Type: application/json
+
+{
+  "rawgId": 962985,
+  "status": "Playing"
+}
+
+### View the local backlog
+GET {{baseUrl}}/api/backlog
+Accept: application/json
+
+### Filter the local backlog
+GET {{baseUrl}}/api/backlog?status=Playing
+Accept: application/json
+
+### Update a backlog entry
+PUT {{baseUrl}}/api/backlog/1
+Content-Type: application/json
+
+{
+  "status": "Completed",
+  "personalRating": 10,
+  "estimatedHours": 105,
+  "notes": "Completed the main story.",
+  "startedOn": "2026-07-01",
+  "completedOn": "2026-08-20"
+}
+
+### Delete a backlog entry
+DELETE {{baseUrl}}/api/backlog/1

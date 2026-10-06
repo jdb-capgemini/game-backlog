@@ -1,0 +1,128 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #8b6f9e;
+  --color-primary-dark: #6d5584;
+  --color-primary-light: #a891c2;
+
+  /* Dark theme base */
+  --color-bg-primary: #0a0e27;
+  --color-bg-secondary: #0f1630;
+  --color-bg-tertiary: #1a2444;
+
+  /* Text colors */
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+
+  /* Status colors - muted palette */
+  --color-success: #22c55e;
+  --color-warning: #e8a033;
+  --color-error: #e85d52;
+  --color-info: #8b6f9e;
+
+  /* Custom Colors */
+  --color-muted-amber-50: #fffbf0;
+  --color-muted-amber-100: #fef3e2;
+  --color-muted-amber-200: #fce8c9;
+  --color-muted-amber-300: #fbd399;
+  --color-muted-amber-400: #f8b856;
+  --color-muted-amber-500: #e8a033;
+  --color-muted-amber-600: #c88b28;
+  --color-muted-amber-700: #a67a22;
+  --color-muted-amber-800: #8a6621;
+  --color-muted-amber-900: #6f5319;
+  --color-muted-amber-950: #3f2d0a;
+
+  --color-muted-rust-50: #fef3f2;
+  --color-muted-rust-100: #fee4e2;
+  --color-muted-rust-200: #feccca;
+  --color-muted-rust-300: #fdaca6;
+  --color-muted-rust-400: #f97970;
+  --color-muted-rust-500: #e85d52;
+  --color-muted-rust-600: #c94a3e;
+  --color-muted-rust-700: #a8403a;
+  --color-muted-rust-800: #8a3a36;
+  --color-muted-rust-900: #733132;
+  --color-muted-rust-950: #441a17;
+
+  --color-muted-emerald-50: #f0fdf6;
+  --color-muted-emerald-100: #dcfce7;
+  --color-muted-emerald-200: #bbf7d0;
+  --color-muted-emerald-300: #86efac;
+  --color-muted-emerald-400: #4ade80;
+  --color-muted-emerald-500: #22c55e;
+  --color-muted-emerald-600: #16a34a;
+  --color-muted-emerald-700: #15803d;
+  --color-muted-emerald-800: #166534;
+  --color-muted-emerald-900: #145231;
+  --color-muted-emerald-950: #052e16;
+}
+
+@layer base {
+  :root {
+    /* Primary accent - deep mauve */
+  }
+
+  * {
+    @apply border-slate-700;
+  }
+
+  body {
+    @apply bg-slate-900 text-slate-100;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-mauve-600 px-4 py-2 font-semibold text-white transition hover:bg-mauve-500 focus:outline-none focus:ring-2 focus:ring-mauve-400 focus:ring-offset-2 focus:ring-offset-slate-900;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 bg-slate-800 px-4 py-2 font-semibold text-white transition hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2 focus:ring-offset-slate-900;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 bg-muted-rust-600 px-4 py-2 font-semibold text-white transition hover:bg-muted-rust-500 focus:outline-none focus:ring-2 focus:ring-muted-rust-400 focus:ring-offset-2 focus:ring-offset-slate-900;
+  }
+
+  .card {
+    @apply overflow-hidden border border-slate-800 bg-slate-900 shadow-lg;
+  }
+
+  .card-header {
+    @apply border-b border-slate-800 p-6;
+  }
+
+  .card-body {
+    @apply p-6;
+  }
+
+  .input-base {
+    @apply w-full border border-slate-700 bg-slate-800 px-4 py-2.5 text-white placeholder:text-slate-500 transition focus:border-mauve-500 focus:ring-2 focus:ring-mauve-500/30;
+  }
+
+  .badge-success {
+    @apply inline-flex items-center gap-1 bg-muted-emerald-500/20 px-3 py-1 text-xs font-semibold text-muted-emerald-200;
+  }
+
+  .badge-warning {
+    @apply inline-flex items-center gap-1 bg-muted-amber-500/20 px-3 py-1 text-xs font-semibold text-muted-amber-200;
+  }
+
+  .badge-error {
+    @apply inline-flex items-center gap-1 bg-muted-rust-500/20 px-3 py-1 text-xs font-semibold text-muted-rust-200;
+  }
+
+  .section-heading {
+    @apply text-sm font-semibold uppercase tracking-wider text-mauve-400;
+  }
+
+  .section-subheading {
+    @apply mt-2 max-w-2xl text-slate-400;
+  }
+}
