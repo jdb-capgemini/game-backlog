@@ -139,13 +139,18 @@ builder.Services
             new JsonStringEnumConverter());
     });
 
+var frontendBaseUrl =
+    builder.Configuration["Frontend:BaseUrl"]
+    ?? throw new InvalidOperationException(
+        "The Frontend BaseUrl is missing.");
+
 builder.Services.AddOpenApi();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("VueDevelopment", policy =>
     {
         policy
-            .WithOrigins("http://localhost:5173")
+            .WithOrigins("http://localhost:5173", frontendBaseUrl)
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
