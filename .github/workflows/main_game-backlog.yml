@@ -23,11 +23,14 @@ jobs:
         with:
           dotnet-version: '10.x'
 
+      - name: Restore dependencies
+        run: dotnet restore server/GameBacklog.sln
+
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build server/GameBacklog.sln --configuration Release --no-restore
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        run: dotnet publish server/GameBacklog.Api/GameBacklog.Api.csproj -c Release --no-build -o "${{env.DOTNET_ROOT}}/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
